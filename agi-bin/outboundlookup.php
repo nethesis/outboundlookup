@@ -1,7 +1,5 @@
 #!/usr/bin/php  
 <?php
-/**
-/* $Id: calledname.php,v 1.1 2005/03/10 16:54:57 nethesis srl $ */
 //Copyright (C) nethesis srl. (info@nethesis.it)
 //
 //This program is free software; you can redistribute it and/or
