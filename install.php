@@ -54,7 +54,7 @@ $db_pass = empty($db_pass) ? $amp_conf['AMPDBPASS'] : $db_pass;
 $pdo = new \Database($db_type.':host='.$db_host.$db_port.';dbname='.$db_name,$db_user,$db_pass);
 
 /*make sure cdr has outbound_cnum and outbound_cnam*/
-foreach(array("outbound_cnum","outbound_cnam","outbound_ccompany") as $name) {
+foreach(array("dst_cnam","dst_ccompany") as $name) {
     outn(_("Checking if field $name is present in cdr table.."));
     try {
         $sql = "SELECT $name FROM `$db_name`.`$db_table_name` limit 1";

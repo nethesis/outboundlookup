@@ -109,12 +109,12 @@ if ($calledname != '' && strlen($number)> 4 )
         }
     }
 
-    outboundlookup_debug("Name = $name, Company = $company");
+    outboundlookup_debug("Name = $name, Company = $company, Number = $number");
 
     @$agi->set_variable("CONNECTEDLINE(name,i)","$name");
-    @$agi->set_variable("CDR(outbound_cnam)","$name");
-    @$agi->set_variable("CDR(outbound_ccompany)","$company");
-    @$agi->verbose("Name = \"$name\", Company = \"$company\"");
+    @$agi->set_variable("CDR(dst_cnam)","$name");
+    @$agi->set_variable("CDR(dst_ccompany)","$company");
+    @$agi->verbose("Name = \"$name\", Company = \"$company\" Number = \"$number\"");
 
     exit(0);
 
