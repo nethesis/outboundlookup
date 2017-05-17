@@ -19,7 +19,6 @@ $DEBUG = false;
 error_reporting(0);
 
 
-
 global $db;
 /**********************************************************************************************************************/
 function outboundlookup_debug($text) {
@@ -37,15 +36,14 @@ function outboundlookup_error($text,$tag='ERROR') {
         @$agi->verbose("outboundlookup [".$tag."] ".$text);
     }
 }
-
 /******************************************************/
 
 $agi = new AGI();
 $number =  $argv[1];
-$calledname =  $argv[2];
+$name = '';
+$company = '';
 
-if ($calledname != '' && strlen($number)> 4 ) 
-{
+if (strlen($number)> 4) {
     //get database data
     $results = $db->getAll("SELECT * FROM outboundlookup","getRow",DB_FETCHMODE_ASSOC);
     if (DB::isError($results) || empty($results)) {
@@ -110,16 +108,16 @@ if ($calledname != '' && strlen($number)> 4 )
     }
 
     outboundlookup_debug("Name = $name, Company = $company, Number = $number");
-
-    @$agi->set_variable("CONNECTEDLINE(name,i)","$name");
-    @$agi->set_variable("CDR(dst_cnam)","$name");
-    @$agi->set_variable("CDR(dst_ccompany)","$company");
-    @$agi->verbose("Name = \"$name\", Company = \"$company\" Number = \"$number\"");
-
-    exit(0);
-
-} else {
-
-    exit(0);
-
 }
+
+if ($name === '' && $company !== '') $displayname = $company;
+elseif ($name !== '' && $company !== '') $displayname = "$name ($company)";
+elseif ($name !== '' && $company === '') $displayname = $name;
+else $displayname = $number;
+
+@$agi->set_variable("CONNECTEDLINE(name,i)","$displayname");
+if ($name !== '' ) @$agi->set_variable("CDR(dst_cnam)","$name");
+if ($company !== '' ) @$agi->set_variable("CDR(dst_ccompany)","$company");
+@$agi->verbose("Name = \"$name\", Company = \"$company\" Number = \"$number\"");
+
+exit(0);
