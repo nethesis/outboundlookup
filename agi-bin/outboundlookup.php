@@ -96,7 +96,7 @@ if ($calledname != '' && strlen($number)> 4 )
             if (isset($row[0]) && !is_null($row[0]) && !empty($row[0])) {
                 $name = $row[0];
                 //if company is setted, make sure that there is only one name that correspond to this number, clear name if there are more than one
-                if ($compay != '') {
+                if ($company != '') {
                     $namecount++;
                     if ( $namecount > 1) {
                         $name = '';
