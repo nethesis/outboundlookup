@@ -40,6 +40,7 @@ function outboundlookup_error($text,$tag='ERROR') {
 
 $agi = new AGI();
 $number =  $argv[1];
+$cnam =  $argv[2];
 $name = '';
 $company = '';
 
@@ -116,6 +117,7 @@ elseif ($name !== '' && $company === '') $displayname = $name;
 else $displayname = $number;
 
 @$agi->set_variable("CONNECTEDLINE(name,i)","$displayname");
+if ($cnam !== '' ) @$agi->set_variable("CDR(cnam)","$cnam");
 if ($name !== '' ) @$agi->set_variable("CDR(dst_cnam)","$name");
 if ($company !== '' ) @$agi->set_variable("CDR(dst_ccompany)","$company");
 @$agi->verbose("Name = \"$name\", Company = \"$company\" Number = \"$number\"");

@@ -17,9 +17,16 @@ function outboundlookup_hookGet_config($engine) {
     global $ext;
     switch($engine) {
         case "asterisk":
+            /* Make sure that there are routes, and that at least one of them has a trunk*/
             $routes = core_routing_list();
             if (!empty($routes) && !is_null(outboundlookup_get())) {
-                $ext->splice('macro-dialout-trunk', 's','customtrunk', new ext_agi('/var/lib/asterisk/agi-bin/outboundlookup.php,${DIAL_NUMBER},${DB(AMPUSER/${AMPUSER}/cidname)}'),"",-4);
+                foreach (core_routing_list() as $route) {
+                    $routetrunks = core_routing_getroutetrunksbyid($route['route_id']);
+                    if (!empty($routetrunks)) {
+                        $ext->splice('macro-dialout-trunk', 's','customtrunk', new ext_agi('/var/lib/asterisk/agi-bin/outboundlookup.php,${DIAL_NUMBER},${DB(AMPUSER/${AMPUSER}/cidname)}'),"",-4);
+                        break;
+                    }
+                }
             }
         break;
     }
