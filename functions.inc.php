@@ -28,6 +28,14 @@ function outboundlookup_hookGet_config($engine) {
                     }
                 }
             }
+            /*Add name resolution between extensions*/
+            $userlist = core_users_list();
+            if (is_array($userlist)) {
+                foreach($userlist as $item) {
+                    $exten = \FreePBX::Core()->getUser($item[0]);
+                    $ext->splice('ext-local', $exten['extension'], '', new ext_set('CDR(dst_cnam)','${DB(AMPUSER/'.$exten['extension'].'/cidname)}'));
+                }
+            }
         break;
     }
 }
